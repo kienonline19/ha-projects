@@ -1,9 +1,8 @@
 <?php
-// add_post.php - Add new question/post
 $page_title = "Ask a Question";
 require_once 'config.php';
 
-// Check if user is logged in
+
 if (!isLoggedIn()) {
     redirect('login.php');
 }
@@ -11,7 +10,7 @@ if (!isLoggedIn()) {
 $error = '';
 $success = '';
 
-// Get modules for dropdown
+
 try {
     $pdo = getConnection();
     $stmt = $pdo->prepare("SELECT id, module_name, module_code FROM modules ORDER BY module_code");
@@ -29,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($title) || empty($content) || empty($module_id)) {
         $error = 'Please fill in all required fields';
     } else {
-        // Handle image upload using our simple function
+
         $image_name = null;
         $upload_result = uploadImage();
 
@@ -101,7 +100,7 @@ include 'header.php';
                         <input type="file" class="form-control" id="image" name="image" accept="image/*">
                         <div class="form-text">Max size: 5MB. Formats: JPG, PNG, GIF</div>
 
-                        <!-- Preview area -->
+
                         <div id="imagePreview" class="mt-2" style="display: none;">
                             <img id="previewImg" class="img-thumbnail" style="max-width: 200px;">
                             <button type="button" class="btn btn-sm btn-danger ms-2" onclick="removePreview()">Remove</button>
@@ -152,7 +151,6 @@ include 'header.php';
 </div>
 
 <script>
-    // Character counter for title
     document.getElementById('title').addEventListener('input', function() {
         const maxLength = 200;
         const currentLength = this.value.length;
@@ -170,18 +168,18 @@ include 'header.php';
         counter.className = remaining < 20 ? 'form-text text-warning' : 'form-text text-muted';
     });
 
-    // Simple preview functionality
+
     document.getElementById('image').addEventListener('change', function(e) {
         const file = e.target.files[0];
         if (file) {
-            // Check file size (5MB max)
+
             if (file.size > 5 * 1024 * 1024) {
                 alert('File too large. Maximum size is 5MB.');
                 this.value = '';
                 return;
             }
 
-            // Show preview
+
             const reader = new FileReader();
             reader.onload = function(e) {
                 document.getElementById('previewImg').src = e.target.result;

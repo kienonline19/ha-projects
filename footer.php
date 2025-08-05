@@ -1,4 +1,4 @@
-</div> <!-- End container -->
+</div>
 
     <footer class="footer mt-auto">
         <div class="container">

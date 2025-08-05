@@ -1,9 +1,9 @@
 <?php
-// manage_users.php - Manage users
+
 $page_title = "Manage Users";
 require_once 'config.php';
 
-// Check if user is logged in and is admin
+
 if (!isLoggedIn()) {
     redirect('login.php');
 }
@@ -15,33 +15,33 @@ if (!isAdmin()) {
 $error = '';
 $success = '';
 
-// Handle user operations
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         $pdo = getConnection();
-        
+
         switch ($_POST['action']) {
             case 'add':
                 $username = sanitize($_POST['username']);
                 $email = sanitize($_POST['email']);
                 $password = $_POST['password'];
-                
+
                 if (empty($username) || empty($email) || empty($password)) {
                     $error = 'Please fill in all fields';
                 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $error = 'Please enter a valid email address';
                 } else {
                     try {
-                        // Check if username or email already exists
+
                         $stmt = $pdo->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
                         $stmt->execute([$username, $email]);
-                        
+
                         if ($stmt->fetch()) {
                             $error = 'Username or email already exists';
                         } else {
                             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                             $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
-                            
+
                             if ($stmt->execute([$username, $email, $hashed_password])) {
                                 $success = 'User added successfully';
                             } else {
@@ -53,27 +53,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
                 break;
-                
+
             case 'edit':
                 $user_id = (int)$_POST['user_id'];
                 $username = sanitize($_POST['username']);
                 $email = sanitize($_POST['email']);
-                
+
                 if (empty($username) || empty($email)) {
                     $error = 'Please fill in all fields';
                 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $error = 'Please enter a valid email address';
                 } else {
                     try {
-                        // Check if username or email already exists for other users
+
                         $stmt = $pdo->prepare("SELECT id FROM users WHERE (username = ? OR email = ?) AND id != ?");
                         $stmt->execute([$username, $email, $user_id]);
-                        
+
                         if ($stmt->fetch()) {
                             $error = 'Username or email already exists';
                         } else {
                             $stmt = $pdo->prepare("UPDATE users SET username = ?, email = ? WHERE id = ?");
-                            
+
                             if ($stmt->execute([$username, $email, $user_id])) {
                                 $success = 'User updated successfully';
                             } else {
@@ -85,16 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
                 break;
-                
+
             case 'delete':
                 $user_id = (int)$_POST['user_id'];
-                
+
                 if ($user_id == $_SESSION['user_id']) {
                     $error = 'You cannot delete your own account';
                 } else {
                     try {
                         $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
-                        
+
                         if ($stmt->execute([$user_id])) {
                             $success = 'User deleted successfully';
                         } else {
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get all users
+
 try {
     $pdo = getConnection();
     $stmt = $pdo->prepare("SELECT u.*, COUNT(p.id) as post_count FROM users u LEFT JOIN posts p ON u.id = p.user_id GROUP BY u.id ORDER BY u.username");
@@ -135,11 +135,11 @@ include 'header.php';
                 <?php if ($error): ?>
                     <div class="alert alert-danger"><?php echo $error; ?></div>
                 <?php endif; ?>
-                
+
                 <?php if ($success): ?>
                     <div class="alert alert-success"><?php echo $success; ?></div>
                 <?php endif; ?>
-                
+
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -178,7 +178,7 @@ include 'header.php';
             </div>
         </div>
     </div>
-    
+
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
@@ -196,7 +196,7 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Add User Modal -->
+
 <div class="modal fade" id="addUserModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -229,7 +229,7 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Edit User Modal -->
+
 <div class="modal fade" id="editUserModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -259,7 +259,7 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Delete User Modal -->
+
 <div class="modal fade" id="deleteUserModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -284,18 +284,18 @@ include 'header.php';
 </div>
 
 <script>
-function editUser(user) {
-    document.getElementById('edit_user_id').value = user.id;
-    document.getElementById('edit_username').value = user.username;
-    document.getElementById('edit_email').value = user.email;
-    new bootstrap.Modal(document.getElementById('editUserModal')).show();
-}
+    function editUser(user) {
+        document.getElementById('edit_user_id').value = user.id;
+        document.getElementById('edit_username').value = user.username;
+        document.getElementById('edit_email').value = user.email;
+        new bootstrap.Modal(document.getElementById('editUserModal')).show();
+    }
 
-function deleteUser(userId, username) {
-    document.getElementById('delete_user_id').value = userId;
-    document.getElementById('delete_username').textContent = username;
-    new bootstrap.Modal(document.getElementById('deleteUserModal')).show();
-}
+    function deleteUser(userId, username) {
+        document.getElementById('delete_user_id').value = userId;
+        document.getElementById('delete_username').textContent = username;
+        new bootstrap.Modal(document.getElementById('deleteUserModal')).show();
+    }
 </script>
 
 <?php include 'footer.php'; ?>

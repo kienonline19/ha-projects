@@ -1,9 +1,9 @@
 <?php
-// manage_modules.php - Manage modules
+
 $page_title = "Manage Modules";
 require_once 'config.php';
 
-// Check if user is logged in
+
 if (!isLoggedIn()) {
     redirect('login.php');
 }
@@ -11,7 +11,7 @@ if (!isLoggedIn()) {
 $error = '';
 $success = '';
 
-// Handle module operations
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         $pdo = getConnection();
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = 'Please fill in all fields';
                 } else {
                     try {
-                        // Check if module code already exists
+
                         $stmt = $pdo->prepare("SELECT id FROM modules WHERE module_code = ?");
                         $stmt->execute([$module_code]);
 
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $error = 'Please fill in all fields';
                 } else {
                     try {
-                        // Check if module code already exists for other modules
+
                         $stmt = $pdo->prepare("SELECT id FROM modules WHERE module_code = ? AND id != ?");
                         $stmt->execute([$module_code, $module_id]);
 
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Get all modules
+
 try {
     $pdo = getConnection();
     $stmt = $pdo->prepare("SELECT m.*, COUNT(p.id) as post_count FROM modules m LEFT JOIN posts p ON m.id = p.module_id GROUP BY m.id ORDER BY m.module_code");
@@ -179,7 +179,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Add Module Modal -->
 <div class="modal fade" id="addModuleModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -210,7 +209,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Edit Module Modal -->
 <div class="modal fade" id="editModuleModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -240,7 +238,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Delete Module Modal -->
 <div class="modal fade" id="deleteModuleModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

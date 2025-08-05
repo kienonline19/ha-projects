@@ -1,10 +1,7 @@
--- Database: student_qa_system
--- Create database
 CREATE DATABASE IF NOT EXISTS student_qa_system;
 
 USE student_qa_system;
 
--- Users table
 CREATE TABLE
     users (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -14,7 +11,6 @@ CREATE TABLE
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
--- Modules table
 CREATE TABLE
     modules (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -23,7 +19,6 @@ CREATE TABLE
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
--- Posts/Questions table
 CREATE TABLE
     posts (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,7 +33,6 @@ CREATE TABLE
         FOREIGN KEY (module_id) REFERENCES modules (id) ON DELETE CASCADE
     );
 
--- Contact messages table
 CREATE TABLE
     contact_messages (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -49,7 +43,6 @@ CREATE TABLE
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
--- Insert sample data
 INSERT INTO
     users (username, email, password)
 VALUES
@@ -57,7 +50,7 @@ VALUES
         'admin',
         'admin@student.ac.uk',
         '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
-    ), -- password: password
+    ),
     (
         'john_doe',
         'john@student.ac.uk',

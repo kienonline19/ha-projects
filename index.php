@@ -1,9 +1,9 @@
 <?php
-// index.php - Main page displaying questions/posts
+
 $page_title = "Home - Questions & Answers";
 require_once 'config.php';
 
-// Display session messages
+
 $message = '';
 $message_type = '';
 if (isset($_SESSION['message'])) {
@@ -13,7 +13,7 @@ if (isset($_SESSION['message'])) {
     unset($_SESSION['message_type']);
 }
 
-// Get posts with user and module information
+
 try {
     $pdo = getConnection();
     $stmt = $pdo->prepare("
@@ -104,7 +104,6 @@ include 'header.php';
                                                 type="button" data-bs-toggle="dropdown">
                                                 <i class="fas fa-ellipsis-v"></i>
                                             </button>
-                                            <!-- Add 'dropdown-menu-end' class to make it open to the left -->
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
                                                     <a class="dropdown-item" href="edit_post.php?id=<?php echo $post['id']; ?>">
@@ -189,7 +188,7 @@ include 'header.php';
                         </div>
                         <div class="card-body">
                             <?php
-                            // Count posts per module
+
                             $module_counts = [];
                             foreach ($posts as $post) {
                                 $key = $post['module_code'];

@@ -1,5 +1,4 @@
 <?php
-// header.php
 require_once 'config.php';
 ?>
 <!DOCTYPE html>
@@ -49,9 +48,6 @@ require_once 'config.php';
             border-radius: 8px;
         }
 
-        /* Add this to the <style> section in header.php */
-
-        /* Fix dropdown menu z-index issue */
         .dropdown-menu {
             z-index: 1050 !important;
             position: absolute !important;
@@ -62,18 +58,18 @@ require_once 'config.php';
             z-index: 1000;
         }
 
-        /* Ensure sticky sidebar doesn't interfere */
+
         .sticky-top {
             z-index: 999;
         }
 
-        /* Alternative: Make dropdown appear to the left instead of right */
+
         .dropdown-menu-end {
             right: 0;
             left: auto;
         }
 
-        /* Ensure dropdown is visible on mobile too */
+
         @media (max-width: 768px) {
             .dropdown-menu {
                 position: absolute !important;

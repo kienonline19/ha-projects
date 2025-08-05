@@ -1,5 +1,5 @@
 <?php
-// contact.php - Contact form
+
 $page_title = "Contact Us";
 require_once 'config.php';
 
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->execute([$name, $email, $subject, $message])) {
                 $success = 'Your message has been sent successfully! We will get back to you soon.';
                 
-                // Clear form data on success
+                
                 $_POST = [];
             } else {
                 $error = 'Failed to send message. Please try again.';

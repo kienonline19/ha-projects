@@ -1,5 +1,5 @@
 <?php
-// view_post.php - View individual post
+
 $page_title = "View Question";
 require_once 'config.php';
 
@@ -20,7 +20,7 @@ try {
     ");
     $stmt->execute([$post_id]);
     $post = $stmt->fetch();
-    
+
     if (!$post) {
         redirect('index.php');
     }
@@ -28,7 +28,7 @@ try {
     redirect('index.php');
 }
 
-// Set page title to question title
+
 $page_title = htmlspecialchars($post['title']);
 
 include 'header.php';
@@ -85,17 +85,17 @@ include 'header.php';
                 <div class="mb-3">
                     <?php echo nl2br(htmlspecialchars($post['content'])); ?>
                 </div>
-                
+
                 <?php if ($post['image']): ?>
                     <div class="mb-3">
                         <h6>Attached Image:</h6>
                         <div class="text-center">
-                            <img src="uploads/<?php echo htmlspecialchars($post['image']); ?>" 
-                                 class="img-fluid rounded shadow-sm" 
-                                 style="max-width: 100%; height: auto; cursor: pointer;" 
-                                 alt="Question image"
-                                 data-bs-toggle="modal" 
-                                 data-bs-target="#imageModal">
+                            <img src="uploads/<?php echo htmlspecialchars($post['image']); ?>"
+                                class="img-fluid rounded shadow-sm"
+                                style="max-width: 100%; height: auto; cursor: pointer;"
+                                alt="Question image"
+                                data-bs-toggle="modal"
+                                data-bs-target="#imageModal">
                         </div>
                         <small class="text-muted">Click image to view full size</small>
                     </div>
@@ -118,12 +118,12 @@ include 'header.php';
                 </div>
             </div>
         </div>
-        
+
         <div class="mt-3 d-flex justify-content-between">
             <a href="index.php" class="btn btn-secondary">
                 <i class="fas fa-arrow-left"></i> Back to Questions
             </a>
-            
+
             <?php if (isLoggedIn()): ?>
                 <a href="add_post.php" class="btn btn-primary">
                     <i class="fas fa-plus"></i> Ask Another Question
@@ -133,84 +133,84 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+
 <?php if (isLoggedIn() && $_SESSION['user_id'] == $post['user_id']): ?>
-<div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Delete Question</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete this question?</p>
-                <p class="text-danger"><strong>This action cannot be undone!</strong></p>
-                <div class="bg-light p-3 rounded">
-                    <strong>Question:</strong> <?php echo htmlspecialchars($post['title']); ?>
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this question?</p>
+                    <p class="text-danger"><strong>This action cannot be undone!</strong></p>
+                    <div class="bg-light p-3 rounded">
+                        <strong>Question:</strong> <?php echo htmlspecialchars($post['title']); ?>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="delete_post.php?id=<?php echo $post['id']; ?>" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete Question
+                    </a>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a href="delete_post.php?id=<?php echo $post['id']; ?>" class="btn btn-danger">
-                    <i class="fas fa-trash"></i> Delete Question
-                </a>
-            </div>
         </div>
     </div>
-</div>
 <?php endif; ?>
 
-<!-- Image Modal -->
+
 <?php if ($post['image']): ?>
-<div class="modal fade" id="imageModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Question Image</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img src="uploads/<?php echo htmlspecialchars($post['image']); ?>" 
-                     class="img-fluid" alt="Question image">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href="uploads/<?php echo htmlspecialchars($post['image']); ?>" 
-                   class="btn btn-primary" download>
-                    <i class="fas fa-download"></i> Download
-                </a>
+    <div class="modal fade" id="imageModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Question Image</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="uploads/<?php echo htmlspecialchars($post['image']); ?>"
+                        class="img-fluid" alt="Question image">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="uploads/<?php echo htmlspecialchars($post['image']); ?>"
+                        class="btn btn-primary" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <?php endif; ?>
 
 <script>
-function shareQuestion() {
-    const url = window.location.href;
-    const title = "<?php echo addslashes($post['title']); ?>";
-    
-    if (navigator.share) {
-        navigator.share({
-            title: title,
-            url: url
-        });
-    } else {
-        // Fallback: copy to clipboard
-        navigator.clipboard.writeText(url).then(function() {
-            alert('Question link copied to clipboard!');
-        }).catch(function() {
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = url;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            alert('Question link copied to clipboard!');
-        });
+    function shareQuestion() {
+        const url = window.location.href;
+        const title = "<?php echo addslashes($post['title']); ?>";
+
+        if (navigator.share) {
+            navigator.share({
+                title: title,
+                url: url
+            });
+        } else {
+
+            navigator.clipboard.writeText(url).then(function() {
+                alert('Question link copied to clipboard!');
+            }).catch(function() {
+
+                const textArea = document.createElement('textarea');
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Question link copied to clipboard!');
+            });
+        }
     }
-}
 </script>
 
 <?php include 'footer.php'; ?>
