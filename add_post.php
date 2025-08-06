@@ -109,7 +109,7 @@ include 'header.php';
 
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> Post Question
+                            <i class="fas fa-paper-plane"></i> Add Question
                         </button>
                         <a href="index.php" class="btn btn-secondary">Cancel</a>
                     </div>
