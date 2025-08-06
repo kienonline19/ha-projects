@@ -72,7 +72,7 @@ include 'header.php';
             </div>
         </div>
 
-        <div class="card mt-3">
+        <!-- <div class="card mt-3">
             <div class="card-header">
                 <h6 class="mb-0"><i class="fas fa-info-circle"></i> Demo Accounts</h6>
             </div>
@@ -85,7 +85,7 @@ include 'header.php';
 
                 <small class="text-muted">You can use these accounts to test the system or create your own.</small>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 
