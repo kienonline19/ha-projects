@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once 'includes/config.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +10,8 @@ require_once 'config.php';
     <title><?php echo isset($page_title) ? $page_title . ' - ' : ''; ?>Student Q&A System</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
+    <link rel="stylesheet" href="styles.css">
+    <!-- <style>
         .navbar-brand {
             font-weight: bold;
             color: #007bff !important;
@@ -78,7 +79,7 @@ require_once 'config.php';
                 right: 0 !important;
             }
         }
-    </style>
+    </style> -->
 </head>
 
 <body>

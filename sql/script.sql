@@ -36,11 +36,14 @@ CREATE TABLE
 CREATE TABLE
     contact_messages (
         id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT DEFAULT NULL,
         name VARCHAR(100) NOT NULL,
         email VARCHAR(100) NOT NULL,
         subject VARCHAR(200) NOT NULL,
         message TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        status ENUM ('new', 'in_progress', 'resolved', 'closed') DEFAULT 'new',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE SET NULL
     );
 
 INSERT INTO
