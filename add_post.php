@@ -10,7 +10,6 @@ if (!isLoggedIn()) {
 $error = '';
 $success = '';
 
-
 try {
     $pdo = getConnection();
     $stmt = $pdo->prepare("SELECT id, module_name, module_code FROM modules ORDER BY module_code");
